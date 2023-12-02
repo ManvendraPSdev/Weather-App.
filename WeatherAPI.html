@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .bakcolor {
+            background-color: #212121;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #display {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body class="bakcolor">
+    <h1>AnyWhere Weather</h1>
+
+    <input type="text" id="cityInput" placeholder="Enter City">
+
+    <button id="Find">Find</button>
+    <!-- For Displaying the weather creating the div -->
+    <div id="display"></div>
+
+    <script>
+        // Making the API request with the help of fetch API
+        const apiKey = "4067686c0f4aab95d9260e508c243e86"
+        const city = document.querySelector("#cityInput")
+
+        let FindWeather = document.querySelector("#Find");
+        let Display = document.querySelector("#display");
+
+        FindWeather.addEventListener("click", function () {
+            const cityName = city.value ;
+            // if(city.trim()== ""){
+            //     alert("Please Enter the city");
+            //     return ;
+            // }
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`)
+                .then(function (response) {
+                    const data = response.json();
+                    return data ;
+                })
+                .then(function (data) {
+                    console.log(data);
+                    Display.innerHTML = `<h2>Weather in ${cityName}</h2>
+                    <p>Temperature: ${data.main.temp} K</p>
+                    <p>Pressure: ${data.main.pressure} hPa</p>`;
+
+                })
+                .catch(function (error) {
+                    console.log("An Error Occurred ", error);
+                })
+        })
+    </script>
+</body>
+</html>
